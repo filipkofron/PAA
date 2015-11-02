@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithm.cs" />
+    <Compile Include="Algorithms\Algorithm.cs" />
     <Compile Include="Algorithms\BBRecursiveBruteforce.cs" />
     <Compile Include="Algorithms\CostDecomposition.cs" />
     <Compile Include="Algorithms\CostFPTAS.cs" />

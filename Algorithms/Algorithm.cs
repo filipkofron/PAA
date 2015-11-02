@@ -20,5 +20,10 @@ namespace Knapsack
     }
 
     public abstract int Solve();
+
+    public virtual string GetConfig()
+    {
+      return "";
+    }
   }
 }

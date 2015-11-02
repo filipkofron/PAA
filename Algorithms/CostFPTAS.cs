@@ -11,11 +11,33 @@ namespace Knapsack.Algorithms
 
     private int _sumAllWeights = 0;
     private int _sumAllCosts = 0;
+
     private int _max;
 
-    public CostFPTAS(int bitsToOmit)
+    private int _fullCost = 0;
+    private double _eps;
+    private int _bitsToOmit;
+
+    public CostFPTAS(double eps)
     {
-      _bitsToOmit = bitsToOmit;
+      _eps = eps;
+    }
+
+    private unsafe void SumFullCost()
+    {
+      fixed (int* items = &_knapsack.ItemValues[0])
+      {
+        _fullCost = 0;
+        for (int i = 0; i < _size; i++)
+        {
+          _fullCost += items[i * 2 + 1];
+        }
+      }
+    }
+
+    private void CalculateBits()
+    {
+      _bitsToOmit = Math.Max((int) (Math.Log((_eps * _fullCost) / _size, 2.0) - 0.5), 0);
     }
 
     private unsafe void SumAll(int[] fptasItems)
@@ -111,6 +133,8 @@ namespace Knapsack.Algorithms
 
     public unsafe override int Solve()
     {
+      SumFullCost();
+      CalculateBits();
       int[] fptasItems = MakeFPTASItems();
       SumAll(fptasItems);
       _max = _sumAllWeights * 2 + 1;
@@ -126,6 +150,9 @@ namespace Knapsack.Algorithms
       return ReadSolution();
     }
 
-    private int _bitsToOmit;
+    public override string GetConfig()
+    {
+      return "error: " + _eps + " omitted bits: " + _bitsToOmit;
+    }
   }
 }

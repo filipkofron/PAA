@@ -8,12 +8,12 @@ namespace Knapsack
   class ResultPrinter
   {
     private List<TestResult> _testResults;
-    private string _algorithmName;
+    private Algorithm _algorithm;
 
-    public ResultPrinter(List<TestResult> testResults, string algorithmName)
+    public ResultPrinter(List<TestResult> testResults, Algorithm algorithm)
     {
       _testResults = testResults;
-      _algorithmName = algorithmName;
+      _algorithm = algorithm;
       if (File.Exists(GetFileName()))
       {
         File.Delete(GetFileName());
@@ -22,7 +22,13 @@ namespace Knapsack
 
     private string GetFileName()
     {
-      return "results_" + _algorithmName + ".txt";
+      string config = _algorithm.GetConfig();
+      if (String.IsNullOrEmpty(config))
+      {
+        return "results_" + _algorithm.GetType().Name + ".txt";
+      }
+      config = config.Replace(".", "_").Replace(":", "-").Replace(" ", "-");
+      return "results_" + _algorithm.GetType().Name + "_" + config + ".txt";
     }
 
     private void Out(string text)

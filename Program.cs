@@ -14,7 +14,7 @@ namespace Knapsack
 
       foreach(var algo in algorithms)
       {
-        Console.WriteLine("Preheating algorithm: " + algo.GetType().Name);
+        Console.WriteLine("Preheating algorithm: " + algo.GetType().Name + " [" + algo.GetConfig() + "]");
         testSuit.RunAllTests(algo);
       }
     }
@@ -28,8 +28,8 @@ namespace Knapsack
 
       foreach (var algo in algorithms)
       {
-        Console.WriteLine("Running algorithm: " + algo.GetType().Name);
-        new ResultPrinter(testSuit.RunAllTests(algo), algo.GetType().Name).Print();
+        Console.WriteLine("Running algorithm: " + algo.GetType().Name + " [" + algo.GetConfig() + "]");
+        new ResultPrinter(testSuit.RunAllTests(algo), algo).Print();
       }
     }
 
@@ -37,14 +37,20 @@ namespace Knapsack
     {
       var algorithms = new List<Algorithm>
       {
-        new BBRecursiveBruteforce(),
+        //new BBRecursiveBruteforce(),
         new CostDecomposition(),
-        new CostFPTAS(1),
-        new RecursiveBruteforce(),
-        new IterativeBruteforce()
+        new CostFPTAS(0.04),
+        new CostFPTAS(0.1),
+        new CostFPTAS(0.125),
+        new CostFPTAS(0.175),
+        new CostFPTAS(0.225),
+        new CostFPTAS(0.275),
+        new CostFPTAS(0.325),
+        new CostFPTAS(0.375),
+        //new RecursiveBruteforce(),
+        //new IterativeBruteforce()
       };
-
-
+      
       Preheat(algorithms);
       RunTests(algorithms);
 
