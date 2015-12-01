@@ -9,7 +9,7 @@ namespace Knapsack
     public int Capacity { get; }
     public int[] ItemValues { get; }
 
-    public int Solution { get; }
+    public int Solution { get; set; }
 
     public Knapsack(int[] itemValues, int capacity, int solution)
     {

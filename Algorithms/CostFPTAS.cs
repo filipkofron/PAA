@@ -37,6 +37,7 @@ namespace Knapsack.Algorithms
 
     private void CalculateBits()
     {
+      //_bitsToOmit = (int) (_eps*_fullCost)/_size;
       _bitsToOmit = Math.Max((int) (Math.Log((_eps * _fullCost) / _size, 2.0) - 0.5), 0);
     }
 
@@ -140,7 +141,7 @@ namespace Knapsack.Algorithms
       _max = _sumAllWeights * 2 + 1;
       _weights = new int[_size + 1, _sumAllCosts + 1];
       FillInf();
-      
+
       fixed (int* itemsPtr = &fptasItems[0])
       {
         _items = itemsPtr;

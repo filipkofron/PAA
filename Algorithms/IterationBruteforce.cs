@@ -60,16 +60,15 @@ namespace Knapsack
       int sumWeight = 0;
       int maxSumCost = 0;
       int sumCost = 0;
-      ulong mask = 0;
       int idx = 0;
-      int cycles = 1 << n;
+      ulong cycles = (ulong) 1 << n;
 
       fixed (int* ptr = &_knapsack.ItemValues[0])
       {
-        for (int i = 0; i < cycles; i++)
+        for (ulong i = 0; i < cycles; i++)
         {
           prev = test++;
-          mask = prev ^ test;
+          var mask = prev ^ test;
           if ((prev & mask) != 0)
           {
             ulong temp = prev & mask;
