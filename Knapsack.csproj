@@ -47,6 +47,8 @@
     <Compile Include="Algorithms\Heurestic.cs" />
     <Compile Include="Algorithms\IterationBruteforce.cs" />
     <Compile Include="Algorithms\RecursiveBruteforce.cs" />
+    <Compile Include="GeneratorSetup.cs" />
+    <Compile Include="GeneratorSetupGenerator.cs" />
     <Compile Include="Knapsack.cs" />
     <Compile Include="KnapsackReader.cs" />
     <Compile Include="Program.cs" />

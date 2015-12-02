@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 
 namespace Knapsack
@@ -8,12 +9,28 @@ namespace Knapsack
   class Test : IComparable<Test>
   {
     private List<Knapsack> _knapsacks = new List<Knapsack>();
+    private GeneratorSetup _generatorSetup;
 
     public Test(string filePath)
     {
       string solutionFileName = PathToSolutionPath(filePath);
-      KnapsackReader knapsackReader = new KnapsackReader(filePath, solutionFileName);
+      var knapsackReader = new KnapsackReader(filePath, solutionFileName);
       
+      Knapsack knapsack;
+      do
+      {
+        knapsack = knapsackReader.ReadKnapsack();
+
+        if (knapsack != null)
+          _knapsacks.Add(knapsack);
+      } while (knapsack != null);
+    }
+
+    public Test(StreamReader streamReader, GeneratorSetup generatorSetup)
+    {
+      KnapsackReader knapsackReader = new KnapsackReader(streamReader);
+      _generatorSetup = generatorSetup;
+
       Knapsack knapsack;
       do
       {
@@ -102,7 +119,7 @@ namespace Knapsack
       long avgTime = (long) ((1000000000.0 * (double)avgSW.ElapsedTicks) / Stopwatch.Frequency) / iterations;
       avgError /= iterations;
 
-      return new TestResult(avgError, maxError, avgTime, maxTime, N());
+      return new TestResult(avgError, maxError, avgTime, maxTime, N(), _generatorSetup);
     }
 
     public int CompareTo(Test other)
