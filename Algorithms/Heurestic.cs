@@ -63,6 +63,7 @@ namespace Knapsack.Algorithms
       }
 
       items.Sort();
+      items.Reverse();
 
       var accCost = 0;
       var accWeight = 0;
