@@ -151,6 +151,12 @@ namespace Knapsack.Algorithms
       return ReadSolution();
     }
 
+    public unsafe override void Clear()
+    {
+      _weights = null;
+      _items = null;
+    }
+
     public override string GetConfig()
     {
       return "error: " + _eps + " omitted bits: " + _bitsToOmit;

@@ -85,5 +85,10 @@ namespace Knapsack.Algorithms
         return SolveHeurestic();
       }
     }
+
+    public unsafe override void Clear()
+    {
+      _items = null;
+    }
   }
 }

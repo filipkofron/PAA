@@ -51,5 +51,10 @@ namespace Knapsack.Algorithms
         return RecursiveKnapsackRec();
       }
     }
+
+    public unsafe override void Clear()
+    {
+      items = null;
+    }
   }
 }

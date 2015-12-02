@@ -91,5 +91,11 @@ namespace Knapsack.Algorithms
 
       return ReadSolution();
     }
+
+    public unsafe override void Clear()
+    {
+      _items = null;
+      _weights = null;
+    }
   }
 }

@@ -73,5 +73,11 @@ namespace Knapsack.Algorithms
         }
       }
     }
+
+    public unsafe override void Clear()
+    {
+      _items = null;
+      _postCostSums = null;
+    }
   }
 }

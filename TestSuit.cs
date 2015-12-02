@@ -108,8 +108,12 @@ namespace Knapsack
       List<TestResult> testResults = new List<TestResult>();
       foreach (Test test in _tests)
       {
-        // reserve 128MB for whole test
-        GC.TryStartNoGCRegion(1024 * 1024 * 128);
+        Console.WriteLine("MEM BEF {0} KiB", GC.GetTotalMemory(false) / 1024);
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+        Console.WriteLine("MEM AF {0} KiB", GC.GetTotalMemory(true) / 1024);
+
+        GC.TryStartNoGCRegion(1024 * 1024 * 200, true);
         testResults.Add(test.RunTest(algorithm));
         GC.EndNoGCRegion();
         Console.WriteLine("[" + testResults[testResults.Count - 1].N + "] done.");
