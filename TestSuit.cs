@@ -108,7 +108,10 @@ namespace Knapsack
       List<TestResult> testResults = new List<TestResult>();
       foreach (Test test in _tests)
       {
+        // reserve 128MB for whole test
+        GC.TryStartNoGCRegion(1024 * 1024 * 128);
         testResults.Add(test.RunTest(algorithm));
+        GC.EndNoGCRegion();
         Console.WriteLine("[" + testResults[testResults.Count - 1].N + "] done.");
       }
       return testResults;

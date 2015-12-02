@@ -72,7 +72,7 @@ namespace Knapsack
         new RecursiveBruteforce(),
       };
 
-      //Preheat(algorithms);
+      Preheat(algorithms);
       //RunTests(algorithms);
       RunGeneratedTests(algorithms);
 
