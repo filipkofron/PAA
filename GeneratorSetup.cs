@@ -7,15 +7,16 @@ namespace Knapsack
   class GeneratorSetup
   {
     public int StartingId { get; set; } = 0;
-    public int ItemCount { get; set; } = 20;
+    public int ItemCount { get; set; } = 22;
 
-    public int InstanceCount { get; set; } = 10;
-    public float RatioCapacityToWeightSum { get; set; } = 1;
+    public int InstanceCount { get; set; } = 50;
+    public float RatioCapacityToWeightSum { get; set; } = 0.5f;
     public int MaxWeight { get; set; } = 1000;
     public int MaxCost { get; set; } = 1000;
-    public float Exponent { get; set; } = 1;
-    public bool EqualThings { get; set; } = true;
-    public bool LessThings { get; set; } = true;
+    public float Exponent { get; set; } = 1.0f;
+    public bool EqualThings { get; set; } = false;
+    public bool LessThings { get; set; } = false;
+    public String GeneratorName { get; set; } = "None";
 
     public GeneratorSetup()
     {
@@ -32,11 +33,12 @@ namespace Knapsack
       Exponent = orig.Exponent;
       EqualThings = orig.EqualThings;
       LessThings = orig.LessThings;
+      GeneratorName = orig.GeneratorName;
     }
 
     public string ToFolderName()
     {
-      return $"{StartingId}_{ItemCount}_{InstanceCount}_{RatioCapacityToWeightSum}_{MaxWeight}_{MaxCost}_{Exponent}_{EqualThings}_{LessThings}";
+      return $"{GeneratorName}_{StartingId}_{ItemCount}_{InstanceCount}_{RatioCapacityToWeightSum}_{MaxWeight}_{MaxCost}_{Exponent}_{EqualThings}_{LessThings}";
     }
   }
 }
