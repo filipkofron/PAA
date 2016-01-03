@@ -113,7 +113,7 @@ namespace Knapsack
         GC.WaitForPendingFinalizers();
         //Console.WriteLine("MEM AF {0} KiB", GC.GetTotalMemory(true) / 1024);
 
-        //GC.TryStartNoGCRegion(1024 * 1024 * 200, true);
+        GC.TryStartNoGCRegion(1024 * 1024 * 240, true);
         testResults.Add(test.RunTest(algorithm));
         //GC.EndNoGCRegion();
         Console.WriteLine("[" + testResults[testResults.Count - 1].N + "] done.");
