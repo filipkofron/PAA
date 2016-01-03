@@ -10,10 +10,10 @@ namespace Knapsack
     public int ItemCount { get; set; } = 20;
 
     public int InstanceCount { get; set; } = 10;
-    public float RatioCapacityToWeightSum { get; set; } = 1;
+    public float RatioCapacityToWeightSum { get; set; } = 0.5f;
     public int MaxWeight { get; set; } = 1000;
     public int MaxCost { get; set; } = 1000;
-    public float Exponent { get; set; } = 1;
+    public float Exponent { get; set; } = 1.2f;
     public bool EqualThings { get; set; } = true;
     public bool LessThings { get; set; } = true;
 

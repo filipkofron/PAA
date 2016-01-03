@@ -45,8 +45,12 @@
   <ItemGroup>
     <Compile Include="Algorithms\Algorithm.cs" />
     <Compile Include="Algorithms\BBRecursiveBruteforce.cs" />
+    <Compile Include="Algorithms\Genetic\Configuration.cs" />
+    <Compile Include="Algorithms\Genetic\Generation.cs" />
+    <Compile Include="Algorithms\Genetic\Genetic.cs" />
     <Compile Include="Algorithms\CostDecomposition.cs" />
     <Compile Include="Algorithms\CostFPTAS.cs" />
+    <Compile Include="Algorithms\Genetic\Mutator.cs" />
     <Compile Include="Algorithms\Heurestic.cs" />
     <Compile Include="Algorithms\IterationBruteforce.cs" />
     <Compile Include="Algorithms\RecursiveBruteforce.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using Knapsack.Algorithms;
+using Knapsack.Algorithms.Genetic;
 
 namespace Knapsack
 {
@@ -57,24 +58,34 @@ namespace Knapsack
         p.PriorityClass = ProcessPriorityClass.High;
       var algorithms = new List<Algorithm>
       {
-        new BBRecursiveBruteforce(),
-        new Heurestic(),
-        new CostDecomposition(),
+        //new BBRecursiveBruteforce(),
+        //new Heurestic(),
+        //new CostDecomposition(),
         /*new CostFPTAS(0.04),
         new CostFPTAS(0.1),
         new CostFPTAS(0.125),
         new CostFPTAS(0.175),*/
-        new CostFPTAS(0.225),
+        //new CostFPTAS(0.225),
         /*new CostFPTAS(0.275),
         new CostFPTAS(0.325),
         new CostFPTAS(0.375),*/
-        new IterativeBruteforce(),
-        new RecursiveBruteforce(),
+        //new IterativeBruteforce(),
+        //new RecursiveBruteforce(),
+        new Genetic(
+          mutationPercentage: 0.1f,
+          mutationCountPercentage: 0.15f,
+          crossPercentage: 0.3f,
+          crossCountPercentage: 0.3f,
+          selectionPercentage: 0.5f,
+          generationCount: 8,
+          entityCount: 1000,
+          iterationCount: 100
+          ),
       };
 
-      Preheat(algorithms);
-      //RunTests(algorithms);
-      RunGeneratedTests(algorithms);
+      //Preheat(algorithms);
+      RunTests(algorithms);
+      //RunGeneratedTests(algorithms);
 
       Console.WriteLine("[DONE] Press any key to exit.");
       Console.ReadKey();

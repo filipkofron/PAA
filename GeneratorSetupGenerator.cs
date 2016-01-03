@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Knapsack
 {
-  class GeneratorSetupGenerator
+  internal class GeneratorSetupGenerator
   {
     private static void GenerateRatioCapacityToWeightSum(ICollection<GeneratorSetup> list)
     {
-      for (var f = 0.25f; f <= 2.0f; f += 0.25f)
+      for (var f = 0.8f; f <= 1.2f; f += 0.1f)
       {
         GeneratorSetup gen = new GeneratorSetup();
         gen.RatioCapacityToWeightSum = f;
@@ -30,18 +30,16 @@ namespace Knapsack
     {
       for (var i = 100; i <= 2100; i += 400)
       {
-        GeneratorSetup gen = new GeneratorSetup();
-        gen.MaxCost = i;
+        GeneratorSetup gen = new GeneratorSetup {MaxCost = i};
         list.Add(gen);
       }
     }
 
     private static void GenerateExponent(ICollection<GeneratorSetup> list)
     {
-      for (var f = 0.25f; f <= 2.0f; f += 0.25f)
+      for (var f = 0.01f; f <= 5.00f; f += 0.1f)
       {
-        GeneratorSetup gen = new GeneratorSetup();
-        gen.Exponent = f;
+        GeneratorSetup gen = new GeneratorSetup {Exponent = f};
         list.Add(gen);
       }
     }
@@ -54,7 +52,7 @@ namespace Knapsack
 
       genL.LessThings = true;
       genL.EqualThings = false;
-      
+
       genE.EqualThings = true;
 
       genG.LessThings = false;
@@ -68,11 +66,11 @@ namespace Knapsack
     public List<GeneratorSetup> GetAllSetups()
     {
       var res = new List<GeneratorSetup>();
-      GenerateRatioCapacityToWeightSum(res);
-      GenerateMaxWeight(res);
-      GenerateMaxCost(res);
+      //GenerateRatioCapacityToWeightSum(res);
+      //GenerateMaxWeight(res);
+      //GenerateMaxCost(res);
       GenerateExponent(res);
-      GenerateLessEqualGreater(res);
+      //GenerateLessEqualGreater(res);
 
       return res;
     }

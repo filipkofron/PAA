@@ -60,8 +60,8 @@ namespace Knapsack
       }
       else
       {
-        Console.WriteLine("Calculating correct solution using recursiveBruteforce");
         Algorithm algo = new CostDecomposition();
+        Console.WriteLine($"Calculating correct solution using algo {algo.ToString()}");
         algo.Knapsack = knapsack;
         solution = algo.Solve();
       }
@@ -75,7 +75,16 @@ namespace Knapsack
     {
       _streamReader = new StreamReader(file);
       if (solutionFile != null)
-        _solutionStreamReader = new StreamReader(solutionFile);
+      {
+        try
+        {
+          _solutionStreamReader = new StreamReader(solutionFile);
+        }
+        catch (FileNotFoundException e)
+        {
+          _solutionStreamReader = null;
+        }
+      }
     }
 
     // for generating stuff
