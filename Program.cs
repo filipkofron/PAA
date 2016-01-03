@@ -52,10 +52,54 @@ namespace Knapsack
       }
     }
 
+    static public Genetic MakeGenetic()
+    {
+      return new Genetic(
+        mutationPercentage: 0.2f,
+        mutationCountPercentage: 1.0f,
+        crossPercentage: 0.2f,
+        crossCountPercentage: 1.0f,
+        selectionPercentage: 0.5f,
+        generationCount: 8,
+        entityCount: 1000,
+        iterationCount: 200
+        );
+    }
+
     static void Main(string[] args)
     {
       using (var p = Process.GetCurrentProcess())
         p.PriorityClass = ProcessPriorityClass.High;
+      Genetic []g = new Genetic[21];
+      for (int i = 0; i < 21; i++)
+      {
+        g[i] = MakeGenetic();
+      }
+      g[0].MutationPercentage = 0.1f;
+      g[2].MutationPercentage = 0.3f;
+      g[3].MutationPercentage = 0.4f;
+
+      g[4].CrossPercentage = 0.1f;
+      g[5].CrossPercentage = 0.2f;
+      g[6].CrossPercentage = 0.3f;
+      g[7].CrossPercentage = 0.4f;
+
+      g[8].SelectionPercentage = 0.3f;
+      g[9].SelectionPercentage = 0.4f;
+      g[10].SelectionPercentage = 0.5f;
+      g[11].SelectionPercentage = 0.6f;
+      g[12].SelectionPercentage = 0.7f;
+
+      g[13].EntityCount = 300;
+      g[14].EntityCount = 600;
+      g[15].EntityCount = 900;
+      g[16].EntityCount = 1200;
+
+      g[17].IterationCount = 100;
+      g[18].IterationCount = 200;
+      g[19].IterationCount = 300;
+      g[20].IterationCount = 400;
+
       var algorithms = new List<Algorithm>
       {
         //new BBRecursiveBruteforce(),
@@ -71,19 +115,16 @@ namespace Knapsack
         new CostFPTAS(0.375),*/
         //new IterativeBruteforce(),
         //new RecursiveBruteforce(),
-        new Genetic(
-          mutationPercentage: 0.1f,
-          mutationCountPercentage: 0.15f,
-          crossPercentage: 0.3f,
-          crossCountPercentage: 0.3f,
-          selectionPercentage: 0.5f,
-          generationCount: 8,
-          entityCount: 1000,
-          iterationCount: 100
-          ),
+        
       };
+      /*for (int i = 0; i < 21; i++)
+      {
+        algorithms.Add(g[i]);
+      }*/
+      algorithms.Add(g[16]);
+      algorithms.Add(g[17]);
 
-      //Preheat(algorithms);
+      // Preheat(algorithms);
       RunTests(algorithms);
       //RunGeneratedTests(algorithms);
 

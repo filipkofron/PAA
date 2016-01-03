@@ -53,7 +53,7 @@ namespace Knapsack.Algorithms.Genetic
       for (int i = 0; i < size; i++)
       {
         Configuration configuration = new Configuration(knapsack);
-        //configuration.Randomize(mutator);
+        configuration.Randomize(mutator);
         _configurations.Add(configuration);
       }
     }
@@ -71,9 +71,33 @@ namespace Knapsack.Algorithms.Genetic
       for (; i < fullSize; i++)
       {
         Configuration configuration = new Configuration(knapsack);
-        //configuration.Randomize(mutator);
+        configuration.Randomize(mutator);
         _configurations.Add(configuration);
       }
+    }
+
+    public void MutateDuplicates(Mutator mutator, float percent)
+    {
+      int flipCount = (int)((_knapsack.ItemValues.Length * percent) * 0.5f);
+      List<Configuration> newConfigs = new List<Configuration>();
+      if (_configurations.Count > 0)
+      {
+        newConfigs.Add(_configurations[0]);
+      }
+      for (int i = 1; i < _configurations.Count; i++)
+      {
+        if (_configurations[i].Same(_configurations[i - 1]))
+        {
+          Configuration config = _configurations[i];
+          config.Mutate(mutator, flipCount);
+          newConfigs.Add(config);
+        }
+        else
+        {
+          newConfigs.Add(_configurations[i]);
+        }
+      }
+      _configurations = newConfigs;
     }
 
     public void Mutate(Mutator mutator, int maxSize, float percent, float countPercent)
@@ -82,13 +106,24 @@ namespace Knapsack.Algorithms.Genetic
       int count = (int)((maxSize * percent) * 0.5f);
       Mutator.Shuffle(_configurations);
       List<Configuration> newConfigs = new List<Configuration>(count);
-      for (int i = 0; i < count; i++)
+      for (int i = 0; i < count && i < _configurations.Count; i++)
       {
         Configuration config = new Configuration(_configurations[i]);
         config.Mutate(mutator, flipCount);
         newConfigs.Add(config);
       }
       _configurations.AddRange(newConfigs);
+    }
+
+    public void Fix(Mutator mutator)
+    {
+      foreach (Configuration config in _configurations)
+      {
+        if (mutator.Rand(20) == 0)
+        {
+          config.Fix(mutator);
+        }        
+      }
     }
 
     public void Cross(Mutator mutator, int maxSize, Generation other, float percent, float countPercent)
@@ -108,14 +143,8 @@ namespace Knapsack.Algorithms.Genetic
       _configurations.AddRange(newConfigs);
     }
 
-    public void Cross(Mutator mutator, float percent)
-    {
-      throw new NotImplementedException();
-    }
-
     public Generation SelectBest(Mutator mutator, int count, int maxSize)
     {
-      Debug.Assert(count <= _configurations.Count);
       SortedSet<ConfigurationSortedItem> set = new SortedSet<ConfigurationSortedItem>();
       for (int i = 0; i < _configurations.Count; i++)
       {

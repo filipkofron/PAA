@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.IO;
 
 namespace Knapsack.Algorithms.Genetic
 {
@@ -16,7 +17,12 @@ namespace Knapsack.Algorithms.Genetic
     private int _entityCount;
 
     private Mutator _mutator;
-    private Generation[] _generations;
+    private Generation _generation;
+
+    public override string GetConfig()
+    {
+      return $"mut{_mutationPercentage}_mutc{_mutationCountPercentage}_cr{_crossPercentage}_crc{_crossCountPercentage}_sel{_selectionPercentage}_it{_iterationCount}_ent{_entityCount}";
+    }
 
     public Genetic(
       float mutationPercentage,
@@ -39,8 +45,54 @@ namespace Knapsack.Algorithms.Genetic
       _generationCount = generationCount;
       _iterationCount = iterationCount;
       _entityCount = entityCount;
+    }
 
-      _generations = new Generation[_generationCount];
+    public float MutationPercentage
+    {
+      get { return _mutationPercentage; }
+      set { _mutationPercentage = value; }
+    }
+
+    public float MutationCountPercentage
+    {
+      get { return _mutationCountPercentage; }
+      set { _mutationCountPercentage = value; }
+    }
+
+    public float CrossPercentage
+    {
+      get { return _crossPercentage; }
+      set { _crossPercentage = value; }
+    }
+
+    public float CrossCountPercentage
+    {
+      get { return _crossCountPercentage; }
+      set { _crossCountPercentage = value; }
+    }
+
+    public float SelectionPercentage
+    {
+      get { return _selectionPercentage; }
+      set { _selectionPercentage = value; }
+    }
+
+    public int IterationCount
+    {
+      get { return _iterationCount; }
+      set { _iterationCount = value; }
+    }
+
+    public int GenerationCount
+    {
+      get { return _generationCount; }
+      set { _generationCount = value; }
+    }
+
+    public int EntityCount
+    {
+      get { return _entityCount; }
+      set { _entityCount = value; }
     }
 
     public class DuplicateKeyComparer<TKey>
@@ -62,65 +114,43 @@ namespace Knapsack.Algorithms.Genetic
       #endregion
     }
 
-    private Generation Cycle(Generation start, int cycle, int gener)
+    private Generation Cycle(Generation start, int cycle)
     {
       int bestCount = (int) (_entityCount * _selectionPercentage);
-      Generation mutateWith = _mutator.Rand(4) == 0 ? start : _generations[_mutator.Rand(_generationCount)];
-      start.Cross(_mutator, _entityCount, mutateWith, _crossPercentage, _crossCountPercentage);
-      start.Mutate(_mutator, _entityCount, _mutationPercentage, _mutationCountPercentage);
-      Generation newGeneration = start.SelectBest(_mutator, bestCount, _entityCount);
 
-      Configuration best = newGeneration.SelectBest(_mutator, 1, 1).GetFirst();
-      //Console.WriteLine($"[{cycle}:{gener}] " + best.Evaluate() + " " + best.SumCost());
+      Generation mutateWith =  start;
+      start.MutateDuplicates(_mutator, _mutationPercentage);
+      start.Cross(_mutator, _entityCount * 2, mutateWith, _crossPercentage, _crossCountPercentage);
+      start.Mutate(_mutator, _entityCount * 3, _mutationPercentage, _mutationCountPercentage);
+      start.Fix(_mutator);
+      Generation newGeneration = start.SelectBest(_mutator, bestCount, _entityCount);
 
       return newGeneration;
     }
 
-    private SortedList<int, int> SortedSolutions()
-    {
-      SortedList<int, int> sorted = new SortedList<int, int>(new DuplicateKeyComparer<int>());
-      for (int g = 0; g < _generationCount; g++)
-      {
-        int sol = (int) _generations[g].SelectBest(_mutator, 1, 1).GetFirst().SumCost();
-        sorted.Add(sol, sol);
-      }
-      return sorted;
-    }
-
     private int BestSolution()
     {
-      int max = 0;
-      for (int g = 0; g < _generationCount; g++)
-      {
-        int curr = _generations[g].SelectBest(_mutator, 1, 1).GetFirst().SumCost();
-        if (curr > max)
-          max = curr;
-      }
-      return max;
+       return _generation.SelectBest(_mutator, 1, 1).GetFirst().SumCost();
+    }
+    private void Out(string text)
+    {
+      File.AppendAllText("iterations.csv", text + "\n");
     }
 
     public override int Solve()
     {
       int bits = _knapsack.ItemValues.Length / 2;
       _mutator = new Mutator(bits);
-
-      for (int g = 0; g < _generationCount; g++)
-      {
-        _generations[g] = new Generation(_mutator, _entityCount, _knapsack);
-      }
-
+      
+      _generation = new Generation(_mutator, _entityCount, _knapsack);
+    
       for (int i = 0; i < _iterationCount; i++)
       {
-        for (int g = 0; g < _generationCount; g++)
-        {
-          _generations[g] = Cycle(_generations[g], i, g);
-        }
-        string text = $"{i}({_knapsack.Solution}):";
-        foreach (var item in SortedSolutions())
-        {
-          text += $" {item.Key}";
-        }
-        Console.WriteLine(text);
+        _generation = Cycle(_generation, i);
+        string text = $"{i},{_knapsack.Solution},{BestSolution()}";
+        //string text = $"{i},{BestSolution()}";
+        //Console.WriteLine(text);
+        //Out(text);
         //Console.WriteLine($"{i}:" + BestSolution());
       }
 

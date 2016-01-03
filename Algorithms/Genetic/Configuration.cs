@@ -25,11 +25,47 @@ namespace Knapsack.Algorithms.Genetic
       configuration._presence.CopyTo(_presence, 0);
     }
 
-
-
     public void Randomize(Mutator mutator)
     {
       Mutate(mutator, _presence.Length);
+    }
+
+    public void Fix(Mutator mutator)
+    {
+      int weight = SumWeight();
+      while (weight > _knapsack.Capacity)
+      {
+        int idx = mutator.Rand(_presence.Length);
+        int dir = mutator.Rand(2);
+        int found = -1;
+        if (dir == 0)
+        {
+          for (int i = idx; i < _presence.Length; i++)
+          {
+            if (_presence[idx])
+            {
+              found = idx;
+              break;
+            }
+          }
+        }
+        else
+        {
+          for (int i = idx; i >= 0; i--)
+          {
+            if (_presence[idx])
+            {
+              found = idx;
+              break;
+            }
+          }
+        }
+        if (found >= 0)
+        {
+          _presence[found] = false;
+          weight -= _knapsack.ItemValues[found * 2];
+        }
+      }
     }
 
     public void Mutate(Mutator mutator, int count)
@@ -96,10 +132,22 @@ namespace Knapsack.Algorithms.Genetic
       float sumWeight = SumWeight();
       if (sumWeight > _knapsack.Capacity)
       {
-        sumCost *= 0.1f;
+        sumCost *= 0.3f;
         sumCost *= _knapsack.Capacity / sumWeight;
       }
       return sumCost;
+    }
+
+    public bool Same(Configuration configuration)
+    {
+      for (int i = 0; i < _presence.Length; i++)
+      {
+        if (_presence[i] != configuration._presence[i])
+        {
+          return false;
+        }
+      }
+      return true;
     }
   }
 }
