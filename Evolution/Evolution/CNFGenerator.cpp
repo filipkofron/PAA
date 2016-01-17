@@ -9,19 +9,29 @@ std::mt19937 CNFGenerator::_gen;
 void CNFGenerator::GenerateWeights(const std::shared_ptr<CNFProblem>& problem)
 {
   std::uniform_int_distribution<> distribution(1, 50);
-  for (int i = 0; i < 100; i++)
-  {
-    std::cout << "<" << distribution(_gen) << "> ";
-  }
-  std::cout << std::endl;
+
+  auto varNum = problem->GetVarNum();
+  auto weights = problem->GetWeights();
+
+  for (int i = 0; i < varNum; i++)
+    weights[i] = distribution(_gen);;
 }
 
 void CNFGenerator::GenerateForm(const std::shared_ptr<CNFProblem>& problem)
 {
   std::uniform_int_distribution<> presenceDistr(-1, 1);
-  for (int i = 0; i < 100; i++)
+
+  auto& prob = *problem;
+
+  auto varNum = prob.GetVarNum();
+  auto mulNum = prob.GetMulNum();
+
+  for (int i = 0; i < mulNum; i++)
   {
-    std::cout << "<" << presenceDistr(_gen) << "> ";
+    for (int j = 0; j < varNum; j++)
+    {
+      prob[i][j] = presenceDistr(_gen);
+    }
   }
   std::cout << std::endl;
 }

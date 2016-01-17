@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-// The weighted CNF represantation
+//! The weighted CNF represantation
 class CNFProblem
 {
 private:
@@ -13,12 +13,15 @@ public:
   CNFProblem(size_t varNum, size_t mulNum);
   ~CNFProblem();
 
-  // returns the variable number
+  //! returns the variable number
   size_t GetVarNum() const { return _varNum; }
 
-  // returns the multiple number
+  //! returns the multiple number
   size_t GetMulNum() const { return _mulNum; }
 
-  // Returns a array of variable coeficient to the given multiple index
+  //! returns the weights array
+  int32_t* GetWeights() const { return _weights; }
+
+  //! Returns an array of variable coeficient to the given multiple index
   int8_t* operator [] (size_t idx) const;
 };
