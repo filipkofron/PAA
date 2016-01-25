@@ -38,12 +38,7 @@ int8_t* CNFProblem::operator[](size_t idx) const
 
 float CNFProblem::CalculateFitness(uint8_t* present) const
 {
-  float weightMax = 0;
-  for (size_t i = 0; i < _varNum; i++)
-  {
-    if (present[i])
-      weightMax += _weights[i];
-  }
+  float weightMax = static_cast<float>(GetWeightForSulution(present));
   float solPoints = 0;
   bool sol = true;
   for (size_t i = 0; i < _mulNum; i++)
@@ -62,6 +57,19 @@ float CNFProblem::CalculateFitness(uint8_t* present) const
     sol &= val;
   }
   solPoints += sol ? _mulNum * 10 : 0;
-   return (weightMax / _weightMax) + (solPoints / _solutionMax);
-  //return (solPoints / _solutionMax);
+  // return (weightMax / _weightMax) + (solPoints / _solutionMax) * 5.0f;
+  return (solPoints / _solutionMax);
+
+  //return solPoints / _mulNum;
+}
+
+int32_t CNFProblem::GetWeightForSulution(uint8_t* present) const
+{
+  int weightMax = 0;
+  for (size_t i = 0; i < _varNum; i++)
+  {
+    if (present[i])
+      weightMax += _weights[i];
+  }
+  return weightMax;
 }

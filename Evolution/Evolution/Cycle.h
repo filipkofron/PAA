@@ -12,7 +12,7 @@ public:
   Cycle(const Config<Problem>& config)
     : _population(config._populationSize, config._bitCount), _config(config)
   {
-    
+    config._problem->PrecomputeMaxWeight();
   }
 
   void Step()

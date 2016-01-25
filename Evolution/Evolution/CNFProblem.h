@@ -32,6 +32,8 @@ public:
 
   float CalculateFitness(uint8_t* present) const;
 
+  int32_t GetWeightForSulution(uint8_t* present) const;
+
   friend std::ostream& operator << (std::ostream& os, const CNFProblem& problem);
 };
 

@@ -145,6 +145,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="3sat.h" />
     <ClInclude Include="BitGen.h" />
     <ClInclude Include="CNFGenerator.h" />
     <ClInclude Include="CNFProblem.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="3sat.cpp" />
     <ClCompile Include="CNFGenerator.cpp" />
     <ClCompile Include="CNFProblem.cpp" />
     <ClCompile Include="Evolution.cpp" />

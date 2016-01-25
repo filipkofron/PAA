@@ -70,6 +70,11 @@ struct Individual
     return _fitness;
   }
 
+  float GetBestWeight(const Problem& problem) const
+  {
+    return static_cast<float>(problem.GetWeightForSulution(_present));
+  }
+
   template<typename ProblemAnother>
   friend std::ostream& operator << (std::ostream& os, const Individual<ProblemAnother>& ind);
 };
