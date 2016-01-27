@@ -10,7 +10,6 @@ struct Config
   size_t _mutationBitCount;
 
   size_t _crossCount;
-  size_t _crossBitCount;
 
   std::shared_ptr<Problem> _problem;
 };

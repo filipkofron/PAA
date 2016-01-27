@@ -34,6 +34,8 @@ public:
 
   int32_t GetWeightForSulution(uint8_t* present) const;
 
+  float GetSulutionPercentage(uint8_t* present, bool& complete) const;
+
   friend std::ostream& operator << (std::ostream& os, const CNFProblem& problem);
 };
 

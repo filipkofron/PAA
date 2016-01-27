@@ -20,7 +20,7 @@ int	*clause_size;	/* size of clause */
 int	*t;	/* solution for formula generator */
 int 	*weights;
 
-std::shared_ptr<CNFProblem>	gen_3_sat(int n, int m, int mod)
+std::shared_ptr<CNFProblem>	gen_3_sat(int n, int m, int mod, int seed)
 {
   //int	n;	/* # of variables */
   //int	m;	/* # of clauses */
@@ -31,8 +31,7 @@ std::shared_ptr<CNFProblem>	gen_3_sat(int n, int m, int mod)
 
   auto problem = std::make_shared<CNFProblem>(n, m);
 
-  ts = time(NULL);
-  srand((int)ts);
+  srand(seed);
 
   sat_alloc(n, m, 3);
 

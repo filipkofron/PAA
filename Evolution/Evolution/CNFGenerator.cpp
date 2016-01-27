@@ -11,8 +11,6 @@ std::uniform_int_distribution<> _presenceDistr(-1, 1);
 
 void CNFGenerator::GenerateWeights(const std::shared_ptr<CNFProblem>& problem)
 {
-  
-
   auto varNum = problem->GetVarNum();
   auto weights = problem->GetWeights();
 

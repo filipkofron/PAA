@@ -11,16 +11,17 @@ struct Individual
   uint8_t* _present;
   float _fitness;
   bool _fintessDirty;
+  Problem& _problem;
 
-  Individual(size_t length)
-    : _length(length), _fitness(0.0f), _fintessDirty(true)
+  Individual(size_t length, Problem& problem)
+    : _length(length), _fitness(0.0f), _fintessDirty(true), _problem(problem)
   {
     _present = new uint8_t[length];
     memset(_present, 0, _length);
   }
 
   Individual(const Individual& individual)
-    : _length(individual._length), _fitness(individual._fitness), _fintessDirty(individual._fintessDirty)
+    : _length(individual._length), _fitness(individual._fitness), _fintessDirty(individual._fintessDirty), _problem(individual._problem)
   {
     _present = new uint8_t[individual._length];
     memcpy(_present, individual._present, _length);
@@ -73,6 +74,17 @@ struct Individual
   float GetBestWeight(const Problem& problem) const
   {
     return static_cast<float>(problem.GetWeightForSulution(_present));
+  }
+
+  float GetSolutionPercentage(const Problem& problem) const
+  {
+    bool complete = false;
+    return static_cast<float>(problem.GetSulutionPercentage(_present, complete));
+  }
+
+  Problem& GetProblem()
+  {
+    return _problem;
   }
 
   template<typename ProblemAnother>

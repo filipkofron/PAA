@@ -64,6 +64,11 @@ namespace BitGen
     return static_cast<int32_t>(xorshf96());
   }
 
+  inline float GetRandomFloat01()
+  {
+    return static_cast<uint32_t>(xorshf96()) / static_cast<float>(UINT32_MAX);
+  }
+
   inline void FillRandomBytesAsBits(uint8_t* dest, size_t length)
   {
     size_t intsToGen = CeilDiv32(length);

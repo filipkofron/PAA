@@ -10,27 +10,32 @@ private:
   Config<Problem> _config;
 public:
   Cycle(const Config<Problem>& config)
-    : _population(config._populationSize, config._bitCount), _config(config)
+    : _population(*config._problem, config._populationSize, config._bitCount), _config(config)
   {
     config._problem->PrecomputeMaxWeight();
   }
 
   void Step()
   {
-    Individual<Problem>** startNew = _population.Sort(*_config._problem);
-    _population.Cross(_config._crossCount, _config._crossBitCount, &startNew);
-    _population.Mutate(_config._mutationCount, _config._crossBitCount, &startNew);
+    _population.Sort();
+    _population.CalculateFitnesses();
+    _population.SwapIndividuals();
+    _population.Cross(_config._crossCount);
+    _population.Mutate(_config._mutationCount, _config._mutationBitCount);
+
+    // current method requires both to be equal
+    // Assert(_config._crossCount == _config._mutationCount);
+
+    _population.Randomize(_config._crossCount);
   }
 
   const Individual<Problem>& GetBestIndividual()
   {
-    _population.Sort(*_config._problem);
     return _population.GetBestIndividual();
   }
 
   float GetBestFitness()
   {
-    _population.Sort(*_config._problem);
     return _population.GetBestIndividual().GetFitness(*_config._problem);
   }
 

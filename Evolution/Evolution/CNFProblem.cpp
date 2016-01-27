@@ -38,12 +38,53 @@ int8_t* CNFProblem::operator[](size_t idx) const
 
 float CNFProblem::CalculateFitness(uint8_t* present) const
 {
-  float weightMax = static_cast<float>(GetWeightForSulution(present));
+  const float normalizedMin = 0.00001f;
+  float weight = static_cast<float>(GetWeightForSulution(present));
+  bool complete = false;
+  float solPoints = GetSulutionPercentage(present, complete);
+
+  //solPoints += sol ? _mulNum * 10 : 0;
+  // return (weightMax / _weightMax) + (solPoints / _solutionMax) * 5.0f;
+  //return (solPoints / _solutionMax) + normalizedMin;
+
+  // return (weight / _weightMax) * (solPoints) + normalizedMin;
+  //return ((weight / _weightMax) + (solPoints)) * 0.5f + normalizedMin;
+
+  // return solPoints + normalizedMin;
+  float res = solPoints + normalizedMin;
+  /*if (res < 0.9f)
+  {
+    res *= 0.1f;
+  }
+  else
+  {
+    res -= 0.9f;
+    res /= 0.1f;
+  }*/
+
+  res /= 1.0f - res;;
+
+  return res;
+}
+
+int32_t CNFProblem::GetWeightForSulution(uint8_t* present) const
+{
+  int weightMax = 0;
+  for (size_t i = 0; i < _varNum; i++)
+  {
+    if (present[i])
+      weightMax += _weights[i];
+  }
+  return weightMax;
+}
+
+float CNFProblem::GetSulutionPercentage(uint8_t* present, bool& complete) const
+{
   float solPoints = 0;
   bool sol = true;
   for (size_t i = 0; i < _mulNum; i++)
   {
-    int8_t* vars = (*this)[i];
+    int8_t* vars = this->_form[i];
     bool val = false;
     for (size_t j = 0; j < _varNum; j++)
     {
@@ -56,20 +97,8 @@ float CNFProblem::CalculateFitness(uint8_t* present) const
     solPoints += val ? 1 : 0;
     sol &= val;
   }
-  solPoints += sol ? _mulNum * 10 : 0;
-  // return (weightMax / _weightMax) + (solPoints / _solutionMax) * 5.0f;
-  return (solPoints / _solutionMax);
 
-  //return solPoints / _mulNum;
-}
+  complete = sol;
 
-int32_t CNFProblem::GetWeightForSulution(uint8_t* present) const
-{
-  int weightMax = 0;
-  for (size_t i = 0; i < _varNum; i++)
-  {
-    if (present[i])
-      weightMax += _weights[i];
-  }
-  return weightMax;
+  return solPoints / _mulNum;
 }
