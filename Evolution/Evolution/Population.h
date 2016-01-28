@@ -132,9 +132,16 @@ public:
     *(*_individuals)[_individuals->size() - 1] = *(*_individualsOld)[_individualsOld->size() - 1];
   }
 
-  Individual<Problem>& GetBestIndividual() const
+  Individual<Problem>& GetBestIndividual()
   {
     return *(*_individuals)[_individuals->size() - 1];
+  }
+
+  bool HasSolution() const
+  {
+    Individual<Problem>& ind = *(*_individuals)[_individuals->size() - 1];
+    return abs(1.0f - ind.GetSolutionPercentage(_problem)) < 0.000001;
+
   }
 
   void Print()

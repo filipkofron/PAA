@@ -64,8 +64,8 @@ std::shared_ptr<CNFProblem>	gen_3_sat(int n, int m, int mod, int seed)
   knownSolutionCost = 0;
   fprintf(stdout, "c instance by G2\nc solution = ");
   for (i = 0; i < n; i++) {
-    fprintf(stdout, "%d%%", t[i]);
-    knownSolutionCost = knownSolutionCost + weights[i];
+    fprintf(stdout, "%d", t[i]);
+    knownSolutionCost = knownSolutionCost + weights[t[i]];
   }
   fprintf(stdout, "\n");
   fprintf(stdout, "c Known solution cost is %d \n", knownSolutionCost);
@@ -170,12 +170,12 @@ void	write_sat(FILE *fp, int n, int m, int k, const std::shared_ptr<CNFProblem>&
   fprintf(fp, "p cnf %d %d\n", n, m);
 
   /* weights */
-  fprintf(fp, "w");
+  //fprintf(fp, "w");
   for (i = 0;i<n;i++) {
     problem->GetWeights()[i] = weights[i];
-    fprintf(fp, " %d", weights[i]);
+    //fprintf(fp, " %d", weights[i]);
   }
-  fprintf(fp, "\n");
+  //fprintf(fp, "\n");
 
   for (j = 0; j < m; j++)
   {
@@ -183,11 +183,11 @@ void	write_sat(FILE *fp, int n, int m, int k, const std::shared_ptr<CNFProblem>&
     for (h = 0; h < clause_size[j]; h++)
     {
       (*problem)[j][v[j][h]] = lit[j][h] ? 1 : -1;
-      if (!lit[j][h])
-        fprintf(fp, "-");
-      fprintf(fp, "%d ", v[j][h] + 1);
+      //if (!lit[j][h])
+        //fprintf(fp, "-");
+      //fprintf(fp, "%d ", v[j][h] + 1);
     }
-    fprintf(fp, "0\n");
+    //fprintf(fp, "0\n");
   }
   return;
 }

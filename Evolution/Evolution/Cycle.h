@@ -43,4 +43,9 @@ public:
   {
     _population.Print();
   }
+
+  bool HasSolution() const
+  {
+    return _population.HasSolution();
+  }
 };

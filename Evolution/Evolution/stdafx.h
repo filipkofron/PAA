@@ -5,6 +5,7 @@
 
 #pragma once
 
+#define UNICODE 1
 #include "targetver.h"
 
 #include <stdio.h>
