@@ -53,7 +53,7 @@ float CNFProblem::CalculateFitness(uint8_t* present) const
   // return solPoints + normalizedMin;
   //float res = solPoints + normalizedMin;
   // float res = ((weight / _weightMax) + (solPoints)) * 0.5f;
-  float res = ((weight / _weightMax) * 0.3f + (solPoints) * 0.7f) * 0.5f;
+  float res = ((weight / _weightMax) * 0.2f + solPoints * 0.8f) * 0.5f;
   /*if (res < 0.9f)
   {
     res *= 0.1f;
@@ -63,11 +63,15 @@ float CNFProblem::CalculateFitness(uint8_t* present) const
     res -= 0.9f;
     res /= 0.1f;
   }*/
-  float diffFromOne = 1.0f - res;
-  if (diffFromOne > 0.00001f)
-    res /= 1.0f - res;;
 
-  return res + normalizedMin;
+    if (abs(1.0f - solPoints) > 0.00001f)
+      res *= 0.975f;
+
+    float diffFromOne = abs(1.0f - res);
+    if (diffFromOne > 0.00001f)
+      res /= 1.0f - res;;
+
+    return res + normalizedMin;
 }
 
 int32_t CNFProblem::GetWeightForSulution(uint8_t* present) const

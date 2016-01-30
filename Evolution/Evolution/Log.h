@@ -3,7 +3,13 @@
 #include <string>
 #include <fstream>
 #include <ctime>
+
+#ifdef _WIN32_WINNT
+#undef _WIN32_WINNT
+#endif // _WIN32_WINNT
+
 #define _WIN32_WINNT 0x0500
+
 #include <windows.h>
 #include <shlobj.h>
 

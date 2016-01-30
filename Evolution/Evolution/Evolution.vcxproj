@@ -148,6 +148,8 @@
   <ItemGroup>
     <ClInclude Include="3sat.h" />
     <ClInclude Include="BitGen.h" />
+    <ClInclude Include="Bruteforce.h" />
+    <ClInclude Include="Clock.h" />
     <ClInclude Include="CNFGenerator.h" />
     <ClInclude Include="CNFProblem.h" />
     <ClInclude Include="Config.h" />
