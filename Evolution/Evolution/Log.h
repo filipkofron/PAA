@@ -22,4 +22,5 @@ public:
   ~Log();
   std::ostream& operator()();
   std::string GetDirPath() const;
+  static void ResetTime();
 };

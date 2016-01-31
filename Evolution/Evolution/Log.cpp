@@ -40,6 +40,11 @@ std::ostream& Log::operator()()
   return _out;
 }
 
+void Log::ResetTime()
+{
+  CurrTime = CurrentDateTime();
+}
+
 std::string Log::GetDirPath() const
 {
   if (CurrTime.empty())

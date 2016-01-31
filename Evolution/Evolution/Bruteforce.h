@@ -69,7 +69,7 @@ public:
 
   bool CanSolve()
   {
-    return _problem.GetVarNum() < 22;
+    return _problem.GetVarNum() < 26;
   }
 
   void Solve()
